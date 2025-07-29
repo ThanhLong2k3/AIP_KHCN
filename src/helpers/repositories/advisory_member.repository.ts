@@ -5,6 +5,17 @@ import { IBaseSearch } from "../../models/base";
 // Thêm thành viên ban tư vấn mới
 export const createAdvisoryMember = async (model: IAdvisoryMember): Promise<any> => {
     try {
+        console.log(model.id,
+            model.teacher_name,
+            model.image,
+            model.qualification ?? null,
+            model.subject,
+            model.in_charge ?? null,
+            model.workplace ?? null,
+            model.years_of_experience ?? null,
+            model.description ?? null,
+            model.created_by, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
         const sql = 'CALL add_advisory_member(?,?,?,?,?,?,?,?,?,?)';
         return await db_Provider(
             sql,

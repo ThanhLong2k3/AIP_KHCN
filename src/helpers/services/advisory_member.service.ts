@@ -14,7 +14,6 @@ export const createAdvisoryMemberService = async (model: IAdvisoryMember) => {
         // Validate input
         if (!model.id?.trim()) throw new Error('id thành viên ban tư vấn không được để trống');
         if (!model.teacher_name?.trim()) throw new Error('Tên giáo viên ban tư vấn không được để trống');
-
         // Save
         const result = await createAdvisoryMember(model);
 

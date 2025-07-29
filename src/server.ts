@@ -4,7 +4,6 @@ import cors from "cors";
 import authRoute from "./routes/authRoute";
 import dotenv from "dotenv";
 
-import departmentRoutes from "./routes/management-category/departmentRoutes";
 import accountRoutes from "./routes/accountRoute";
 import advisoryMemberRoutes from "./routes/advisoryMemberRoute";
 import blogRoutes from "./routes/blogRoute";
@@ -15,6 +14,8 @@ import lessonRoutes from "./routes/lessonRoute";
 import roleRoutes from "./routes/roleRoute";
 import subjectRoutes from "./routes/subjectRoute";
 import HomeRoutes from "./routes/homeRoute";
+import uploadRoutes from "./routes/uploadRoute";
+import path from "path";
 
 dotenv.config();
 
@@ -44,13 +45,13 @@ app.use((req, res, next) => {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 
 // Routes
 app.use("/api/auth", authRoute);
-app.use("/api/department", departmentRoutes);
 app.use("/api/account", accountRoutes);
-app.use("/api/advisoryMember", advisoryMemberRoutes);
+app.use("/api/advisory_member", advisoryMemberRoutes);
 app.use("/api/blog", blogRoutes);
 app.use("/api/chapter", chapterRoutes);
 app.use("/api/decentralization", decentralizationRoutes);
@@ -59,6 +60,7 @@ app.use("/api/lesson", lessonRoutes);
 app.use("/api/role", roleRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/home", HomeRoutes);
+app.use("/api/upload", uploadRoutes);
 
 
 
