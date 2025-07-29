@@ -14,6 +14,7 @@ import examRoutes from "./routes/examRoute";
 import lessonRoutes from "./routes/lessonRoute";
 import roleRoutes from "./routes/roleRoute";
 import subjectRoutes from "./routes/subjectRoute";
+import HomeRoutes from "./routes/homeRoute";
 
 dotenv.config();
 
@@ -57,6 +58,8 @@ app.use("/api/exam", examRoutes);
 app.use("/api/lesson", lessonRoutes);
 app.use("/api/role", roleRoutes);
 app.use("/api/subject", subjectRoutes);
+app.use("/api/home", HomeRoutes);
+
 
 
 const PORT = process.env.PORT || 5000;
