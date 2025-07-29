@@ -1,7 +1,7 @@
-import { db_Provider } from '@/app/api/Api_Provider';
-import { IBlog_Get } from '@/types/blog';
+import { db_Provider } from "../../config/api_Provider";
+import { IBlog_Get } from "../../models/blog";
+import { IChapter_Home, ILessonDetail, ISubject_Home } from "../../models/home";
 
-import { IChapter_Home, ILessonDetail, ISubject_Home } from '@/types/home';
 
 export const GetSubjectsWithLessons = async (): Promise<ISubject_Home[]> => {
     try {

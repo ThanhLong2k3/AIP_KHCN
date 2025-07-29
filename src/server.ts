@@ -3,8 +3,6 @@ import express from "express";
 import cors from "cors";
 import authRoute from "./routes/authRoute";
 import dotenv from "dotenv";
-
-import departmentRoutes from "./routes/management-category/departmentRoutes";
 import accountRoutes from "./routes/accountRoute";
 import advisoryMemberRoutes from "./routes/advisoryMemberRoute";
 import blogRoutes from "./routes/blogRoute";
@@ -48,7 +46,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/auth", authRoute);
-app.use("/api/department", departmentRoutes);
 app.use("/api/account", accountRoutes);
 app.use("/api/advisoryMember", advisoryMemberRoutes);
 app.use("/api/blog", blogRoutes);
