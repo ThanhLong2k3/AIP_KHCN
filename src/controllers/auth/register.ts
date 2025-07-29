@@ -1,41 +1,26 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
-import { executeQuery } from '../../config/db';
-import { ResultSetHeader } from 'mysql2';
+import { registerAccountService } from '../../helpers/services/account.service';
 
-export const registerUser = async (req: Request, res: Response) => {
+// Đăng ký tài khoản học sinh
+export const registerAccount = async (req: Request, res: Response) => {
   try {
-    console.log("dêdede",req.body);
+    const DEFAULT_STUDENT_ROLE_ID = 'ade9dcaa-ee35-42a4-8855-3ba1506fa65a'; // ID quyền học sinh
 
-    const { email, password, fullName } = req.body;
-    // Validate dữ liệu
-    if (!email || !password || !fullName) {
-      return res.status(400).json({ error: 'Thiếu thông tin bắt buộc' });
-    }
-
-    // Kiểm tra xem email đã tồn tại chưa
-    const existing = await executeQuery<any[]>('SELECT * FROM users WHERE email = ?', [email]);
-
-    if (existing.length > 0) {
-      return res.status(409).json({ error: 'Email đã được sử dụng' });
-    }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Thêm user vào DB
-    const result = await executeQuery<ResultSetHeader>(
-        "INSERT INTO users (email, password, fullName, role) VALUES (?, ?, ?, 'user')",
-        [email, hashedPassword, fullName]
-      );
-
-    return res.status(201).json({
-      message: 'Đăng ký thành công',
-      userId: result.insertId,
+    const model = req.body;
+    const result = await registerAccountService({
+      ...model,
+      role_id: DEFAULT_STUDENT_ROLE_ID,
     });
 
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Đăng ký thất bại' });
+    return res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error: any) {
+    console.error('API Error in POST /api/auth/register:', error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || 'Internal Server Error',
+    });
   }
 };
