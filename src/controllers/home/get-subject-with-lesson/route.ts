@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { GetSubjectsWithLessonsService } from '../../../helpers/services/home.service';
 
-export async function getSubjectsWithLessonsHandler(req: Request, res: Response) {
+export async function getSubjectsWithLessonsHandler(_: Request, res: Response) {
   try {
     const data = await GetSubjectsWithLessonsService();
 

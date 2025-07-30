@@ -19,7 +19,6 @@ import { getPermissionsByRole } from '../repositories/permission.repository';
 import { IAccount } from '../../models/account';
 import { isDisposableEmail } from './util.service';
 import { IBaseSearch } from '../../models/base';
-import { decrypt } from '../../access';
 
 const BCRYPT_ROUNDS = parseInt('10'); //số vòng lặp mà thư viện bcryptjs sử dụng khi mã hoá mật khẩu
 
@@ -34,7 +33,7 @@ export const createAccountService = async (model: IAccount) => {
     const isInvalidEmail = await isDisposableEmail(model.email);
     if (isInvalidEmail) throw new Error('Địa chỉ email không được hỗ trợ');
     //vừa sửa
-    const decryptedPassword = decrypt(model.password);
+    const decryptedPassword = model.password;
     if (!decryptedPassword) throw new Error('Mật khẩu không hợp lệ');
 
     const hashedPassword = await bcrypt.hash(decryptedPassword, BCRYPT_ROUNDS);
@@ -231,7 +230,7 @@ export const registerAccountService = async (model: IAccount) => {
     const isInvalidEmail = await isDisposableEmail(model.email);
     if (isInvalidEmail) throw new Error('Địa chỉ email không hợp lệ.');
 
-    const decryptedPassword = decrypt(model.password);
+    const decryptedPassword = model.password;
     if (!decryptedPassword) throw new Error('Mật khẩu không hợp lệ');
 
     const hashedPassword = await bcrypt.hash(decryptedPassword, BCRYPT_ROUNDS);
@@ -325,7 +324,7 @@ export const registerOTPService = async (email: string, username: string) => {
 //     const updatedModel = { ...model };
 
 //     if (model.password?.trim()) {
-//       const decryptedPassword = decrypt(model.password);
+//       const decryptedPassword = model.password;
 //       if (!decryptedPassword) throw new Error('Mật khẩu không hợp lệ');
 
 //       const hashedPassword = await bcrypt.hash(decryptedPassword, BCRYPT_ROUNDS);
@@ -354,8 +353,7 @@ export const verifyCurrentPasswordService = async (username: string, currentEncr
     const user = account[0];
 
     // 2. Giải mã và so sánh mật khẩu
-    const decryptedPassword = decrypt(currentEncryptedPassword);
-    if (!decryptedPassword) throw new Error("Mật khẩu không hợp lệ.");
+    const decryptedPassword = currentEncryptedPassword;    if (!decryptedPassword) throw new Error("Mật khẩu không hợp lệ.");
 
     const isMatch = await bcrypt.compare(decryptedPassword, user.password);
 
@@ -400,7 +398,7 @@ export const updateProfileService = async (username: string, model: any) => {
       }
 
       // Tái sử dụng logic xác thực
-      const decryptedCurrentPassword = decrypt(model.currentPassword);
+      const decryptedCurrentPassword = model.currentPassword;
       if (!decryptedCurrentPassword) throw new Error("Mật khẩu hiện tại không hợp lệ.");
 
       const isMatch = await bcrypt.compare(decryptedCurrentPassword, currentUser[0].password);
@@ -409,7 +407,7 @@ export const updateProfileService = async (username: string, model: any) => {
       }
 
       // Mã hóa mật khẩu mới và thay thế nó trong model
-      const decryptedNewPassword = decrypt(model.newPassword);
+      const decryptedNewPassword = model.newPassword;
       if (!decryptedNewPassword) throw new Error("Mật khẩu mới không hợp lệ.");
 
       updatedModel.password = await bcrypt.hash(decryptedNewPassword, 10);

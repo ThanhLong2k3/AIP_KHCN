@@ -11,6 +11,7 @@ export interface IBlog {
     deleted: boolean
 }
 
+
 export interface IBlog_Get {
     id: string;
     image: string;
@@ -19,8 +20,10 @@ export interface IBlog_Get {
     created_at: string;
     updated_at: string;
     created_by: string;
-    create_by_name: string | null;
+    created_by_name: string | null;
     updated_by: string;
-    deleted: boolean;
-    TotalRecount: number;
+    deleted: boolean
+    TotalRecords: number;
 }
+
+
