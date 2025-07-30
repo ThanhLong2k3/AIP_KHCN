@@ -4,7 +4,7 @@ export const GetSubjectsWithLessonsService = async () => {
     try {
         return await GetSubjectsWithLessons();
     } catch (error) {
-        throw new Error('Không thể lấy thông tin môn học và bài học: ');
+        throw error;
     }
 };
 

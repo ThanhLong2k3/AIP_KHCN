@@ -2,13 +2,30 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "commonjs",
-    "outDir": "./dist", // thư mục chứa file .js sau build
-    "rootDir": "./", // thư mục gốc chứa file .ts
-    "strict": true,
+    "noImplicitAny": true,
+    "outDir": "dist",
     "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+
+    /* Bundler mode */
+    "allowImportingTsExtensions": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*.ts", "src/server.ts"],
-   "exclude": ["node_modules", "dist"]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
