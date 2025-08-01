@@ -313,6 +313,7 @@ export const registerOTPService = async (email: string, username: string) => {
   }
 };
 
+// Chỉ xác thực mật khẩu hiện tại
 export const verifyCurrentPasswordService = async (username: string, currentEncryptedPassword: string) => {
   try {
     if (!currentEncryptedPassword) {
