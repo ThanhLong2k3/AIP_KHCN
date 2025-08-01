@@ -18,6 +18,8 @@ const lessonRoute_1 = __importDefault(require("./routes/lessonRoute"));
 const roleRoute_1 = __importDefault(require("./routes/roleRoute"));
 const subjectRoute_1 = __importDefault(require("./routes/subjectRoute"));
 const homeRoute_1 = __importDefault(require("./routes/homeRoute"));
+const uploadRoute_1 = __importDefault(require("./routes/uploadRoute"));
+const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 // Cấu hình CORS
@@ -42,10 +44,11 @@ app.use((req, res, next) => {
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use('/uploads', express_1.default.static(path_1.default.join(__dirname, '..', 'uploads')));
 // Routes
 app.use("/api/auth", authRoute_1.default);
 app.use("/api/account", accountRoute_1.default);
-app.use("/api/advisoryMember", advisoryMemberRoute_1.default);
+app.use("/api/advisory_member", advisoryMemberRoute_1.default);
 app.use("/api/blog", blogRoute_1.default);
 app.use("/api/chapter", chapterRoute_1.default);
 app.use("/api/decentralization", decentralizationRoute_1.default);
@@ -54,6 +57,7 @@ app.use("/api/lesson", lessonRoute_1.default);
 app.use("/api/role", roleRoute_1.default);
 app.use("/api/subject", subjectRoute_1.default);
 app.use("/api/home", homeRoute_1.default);
+app.use("/api/upload", uploadRoute_1.default);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Server is running on port http://localhost:${PORT}`);

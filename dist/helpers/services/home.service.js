@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetBlogById = exports.getlessonDetailById = exports.GetChapterSubhectByIdSubject = exports.GetSubjectsWithLessonsService = void 0;
+exports.GetExamByIdSubject = exports.GetBlogById = exports.getlessonDetailById = exports.GetChapterSubhectByIdSubject = exports.GetSubjectsWithLessonsService = void 0;
 const home_repository_1 = require("../repositories/home.repository");
 const GetSubjectsWithLessonsService = async () => {
     try {
@@ -38,3 +38,12 @@ const GetBlogById = async (id) => {
     }
 };
 exports.GetBlogById = GetBlogById;
+const GetExamByIdSubject = async (id) => {
+    try {
+        return await (0, home_repository_1.get_exam_by_id_subject)(id);
+    }
+    catch (error) {
+        throw new Error('Không thể lấy thông tin bài thi: ');
+    }
+};
+exports.GetExamByIdSubject = GetExamByIdSubject;

@@ -5,6 +5,7 @@ const api_Provider_1 = require("../../config/api_Provider");
 // Thêm thành viên ban tư vấn mới
 const createAdvisoryMember = async (model) => {
     try {
+        console.log(model.id, model.teacher_name, model.image, model.qualification ?? null, model.subject, model.in_charge ?? null, model.workplace ?? null, model.years_of_experience ?? null, model.description ?? null, model.created_by, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
         const sql = 'CALL add_advisory_member(?,?,?,?,?,?,?,?,?,?)';
         return await (0, api_Provider_1.db_Provider)(sql, [
             model.id,

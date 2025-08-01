@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get_blog_by_id = exports.get_lesson_detail_by_id = exports.get_chapter_subhect_by_idSubject = exports.GetSubjectsWithLessons = void 0;
+exports.get_exam_by_id_subject = exports.get_blog_by_id = exports.get_lesson_detail_by_id = exports.get_chapter_subhect_by_idSubject = exports.GetSubjectsWithLessons = void 0;
 const api_Provider_1 = require("../../config/api_Provider");
 const GetSubjectsWithLessons = async () => {
     try {
@@ -46,3 +46,14 @@ const get_blog_by_id = async (id) => {
     }
 };
 exports.get_blog_by_id = get_blog_by_id;
+const get_exam_by_id_subject = async (id) => {
+    try {
+        const sql = 'CALL get_exam_by_id_subject(?)';
+        const results = await (0, api_Provider_1.db_Provider)(sql, [id]);
+        return results;
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+};
+exports.get_exam_by_id_subject = get_exam_by_id_subject;
