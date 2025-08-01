@@ -286,25 +286,6 @@ const registerOTPService = async (email, username) => {
     }
 };
 exports.registerOTPService = registerOTPService;
-// export const updateProfileService = async (model: IAccount) => {
-//   try {
-//     if (!model.name?.trim()) throw new Error('Họ tên không được để trống');
-//     if (!model.email?.trim()) throw new Error('Email không được để trống');
-//     const isInvalidEmail = await isDisposableEmail(model.email);
-//     if (isInvalidEmail) throw new Error('Địa chỉ email không được hỗ trợ');
-//     const updatedModel = { ...model };
-//     if (model.password?.trim()) {
-//       const decryptedPassword = model.password;
-//       if (!decryptedPassword) throw new Error('Mật khẩu không hợp lệ');
-//       const hashedPassword = await bcrypt.hash(decryptedPassword, BCRYPT_ROUNDS);
-//       updatedModel.password = hashedPassword;
-//     }
-//     const result = await updateProfile(updatedModel);
-//     return result;
-//   } catch (error: any) {
-//     throw new Error(error.message || 'Lỗi khi cập nhật người dùng');
-//   }
-// };
 const verifyCurrentPasswordService = async (username, currentEncryptedPassword) => {
     try {
         if (!currentEncryptedPassword) {
@@ -381,6 +362,7 @@ const updateProfileService = async (username, model) => {
         delete updatedModel.newPassword;
         // Đảm bảo username được lấy từ nguồn tin cậy (token), không phải từ model
         updatedModel.username = username;
+        console.log("Updated Model gửi xuống repository:", updatedModel);
         // 4. Gọi repository với model đã được xử lý
         const result = await (0, account_repository_1.updateProfile)(updatedModel);
         return result;

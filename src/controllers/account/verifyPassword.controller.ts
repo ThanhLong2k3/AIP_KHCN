@@ -1,9 +1,18 @@
-import { verifyCurrentPasswordService } from '@/helpers/services/account.service';
+import { verifyAuth } from '@/helpers/auth/auth.helper';
+import { verifyCurrentPasswordService } from '../../helpers/services/account.service';
 import { Request, Response } from 'express';
 
-export const verifyPasswordController = async (req: Request, res: Response) => {
+export const verifyPassword = async (req: Request, res: Response) => {
     try {
-        const { username, currentPassword } = req.body;
+        const authResult = await verifyAuth(req); // KHÔNG truyền mã quyền, chỉ xác thực người dùng
+        if (authResult.error) {
+            return res.status(authResult.error.status || 403).json({
+                success: false,
+                message: authResult.error.message || 'Bạn không có quyền thực hiện chức năng này.',
+            });
+        }
+        const { username } = authResult.user; // Lấy username từ token
+        const { currentPassword } = req.body;
         const result = await verifyCurrentPasswordService(username, currentPassword);
 
         return res.status(200).json(result);

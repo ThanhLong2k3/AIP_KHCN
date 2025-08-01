@@ -8,7 +8,11 @@ const delete_account_controller_1 = require("../controllers/account/delete_accou
 const create_account_controller_1 = require("../controllers/account/create_account.controller");
 const update_account_controller_1 = require("../controllers/account/update_account.controller");
 const search_account_controller_1 = require("../controllers/account/search_account.controller");
+const updateProfile_controller_1 = require("../controllers/account/updateProfile.controller");
+const verifyPassword_controller_1 = require("../controllers/account/verifyPassword.controller");
 const accountRoutes = express_1.default.Router();
+accountRoutes.post('/updateprofile', updateProfile_controller_1.updateProfile);
+accountRoutes.post('/verifypassword', verifyPassword_controller_1.verifyPassword);
 accountRoutes.post('/search', search_account_controller_1.searchAccount);
 accountRoutes.post("/create", create_account_controller_1.createAccount);
 accountRoutes.post('/update', update_account_controller_1.updateAccount);

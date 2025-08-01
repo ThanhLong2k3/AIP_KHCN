@@ -140,14 +140,15 @@ export const updateProfile = async (model: IAccount): Promise<any> => {
     return await db_Provider(
       sql,
       [
-        model.username,
-        model.password,
-        model.image,
-        model.name,
-        model.email
+        model.username ?? null,
+        model.password ?? null,
+        model.image ?? null,
+        model.name ?? null,
+        model.email ?? null
       ],
       true
     );
+
   } catch (error: any) {
     throw new Error(error.message);
   }
