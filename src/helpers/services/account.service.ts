@@ -408,9 +408,26 @@ export const updateProfileService = async (username: string, model: any) => {
     updatedModel.username = username;
 
     // 4. Gọi repository với model đã được xử lý
-    const result = await updateProfile(updatedModel);
+    await updateProfile(updatedModel);
 
-    return result;
+    // Sau khi update, gọi lại hàm authenticate để lấy tất cả thông tin mới
+    const updatedAccount = await authenticate(username);
+
+    if (!updatedAccount || !updatedAccount[0]) {
+      throw new Error("Không thể lấy thông tin tài khoản sau khi cập nhật.");
+    }
+
+    //lấy thông tin quyền
+    const allPermissionsInfo = await getPermissionsByRole(updatedAccount[0].role_id);
+    const permissions = allPermissionsInfo.map((p: any) => p.permission_code);
+
+    return {
+      success: true,
+      user: {
+        ...updatedAccount[0],
+        permissions: permissions,
+      }
+    };
 
   } catch (error: any) {
     // Ném lỗi ra ngoài để API Route xử lý
