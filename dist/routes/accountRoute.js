@@ -11,12 +11,10 @@ const search_account_controller_1 = require("../controllers/account/search_accou
 const updateProfile_controller_1 = require("../controllers/account/updateProfile.controller");
 const verifyPassword_controller_1 = require("../controllers/account/verifyPassword.controller");
 const accountRoutes = express_1.default.Router();
-accountRoutes.post('/updateprofile', updateProfile_controller_1.updateProfile);
-accountRoutes.post('/verifypassword', verifyPassword_controller_1.verifyPassword);
+accountRoutes.post('/update-profile', updateProfile_controller_1.updateProfile);
+accountRoutes.post('/verify-password', verifyPassword_controller_1.verifyPassword);
 accountRoutes.post('/search', search_account_controller_1.searchAccount);
 accountRoutes.post("/create", create_account_controller_1.createAccount);
 accountRoutes.post('/update', update_account_controller_1.updateAccount);
 accountRoutes.post("/delete", delete_account_controller_1.deleteAccount);
-accountRoutes.post('/update-profile', updateProfile_controller_1.updateProfileController);
-accountRoutes.post('/verify-password', verifyPassword_controller_1.verifyPasswordController);
 exports.default = accountRoutes;

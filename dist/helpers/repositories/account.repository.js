@@ -127,11 +127,11 @@ const updateProfile = async (model) => {
     try {
         const sql = 'CALL update_profile(?,?,?,?,?)';
         return await (0, api_Provider_1.db_Provider)(sql, [
-            model.username,
-            model.password,
-            model.image,
-            model.name,
-            model.email
+            model.username ?? null,
+            model.password ?? null,
+            model.image ?? null,
+            model.name ?? null,
+            model.email ?? null
         ], true);
     }
     catch (error) {

@@ -286,6 +286,7 @@ const registerOTPService = async (email, username) => {
     }
 };
 exports.registerOTPService = registerOTPService;
+// Chỉ xác thực mật khẩu hiện tại
 const verifyCurrentPasswordService = async (username, currentEncryptedPassword) => {
     try {
         if (!currentEncryptedPassword) {
@@ -362,7 +363,6 @@ const updateProfileService = async (username, model) => {
         delete updatedModel.newPassword;
         // Đảm bảo username được lấy từ nguồn tin cậy (token), không phải từ model
         updatedModel.username = username;
-        console.log("Updated Model gửi xuống repository:", updatedModel);
         // 4. Gọi repository với model đã được xử lý
         const result = await (0, account_repository_1.updateProfile)(updatedModel);
         return result;
