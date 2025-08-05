@@ -41,6 +41,8 @@ const createAccountService = async (model) => {
     }
 };
 exports.createAccountService = createAccountService;
+
+
 const updateAccountService = async (model) => {
     try {
         if (!model.username?.trim())
@@ -60,6 +62,8 @@ const updateAccountService = async (model) => {
     }
 };
 exports.updateAccountService = updateAccountService;
+
+
 const searchAccountService = async (model) => {
     try {
         return await (0, account_repository_1.searchAccounts)(model);
@@ -69,6 +73,8 @@ const searchAccountService = async (model) => {
     }
 };
 exports.searchAccountService = searchAccountService;
+
+
 const deleteAccountService = async (username, deletedBy) => {
     try {
         return await (0, account_repository_1.deleteAccount)(username, deletedBy);
@@ -78,6 +84,8 @@ const deleteAccountService = async (username, deletedBy) => {
     }
 };
 exports.deleteAccountService = deleteAccountService;
+
+
 const login = async (username, rawPassword) => {
     try {
         const account = await (0, account_repository_1.authenticate)(username);
@@ -111,6 +119,7 @@ const login = async (username, rawPassword) => {
     }
 };
 exports.login = login;
+
 const forgotPasswordService = async (email) => {
     try {
         const account = await (0, account_repository_1.findAccountByEmail)(email);
@@ -161,6 +170,8 @@ const forgotPasswordService = async (email) => {
     }
 };
 exports.forgotPasswordService = forgotPasswordService;
+
+
 //chỉ xác thực OTP
 const verifyOtpService = async (otp, otpToken) => {
     try {
@@ -179,6 +190,8 @@ const verifyOtpService = async (otp, otpToken) => {
     }
 };
 exports.verifyOtpService = verifyOtpService;
+
+
 // chỉ đặt lại mật khẩu (sau khi đã xác thực OTP, đặt lại mật khẩu cho email đã cung cấp)
 const resetPasswordService = async (email, newPassword) => {
     try {
@@ -191,6 +204,8 @@ const resetPasswordService = async (email, newPassword) => {
     }
 };
 exports.resetPasswordService = resetPasswordService;
+
+
 const registerAccountService = async (model) => {
     try {
         //kiểm tra các trường dữ liệu bắt buộc
@@ -202,20 +217,22 @@ const registerAccountService = async (model) => {
             throw new Error('Email không được để trống');
         if (!model.password?.trim())
             throw new Error('Mật khẩu không được để trống');
-        //kiểm tra email đã tồn tại chưa
-        const existingAccountByEmail = await (0, account_repository_1.findAccountByEmail)(model.email);
-        if (existingAccountByEmail) {
-            throw new Error(`Địa chỉ email ${model.email} đã được sử dụng.`);
-        }
         //kiểm tra username đã tồn tại chưa
         const existingAccountByUsername = await (0, account_repository_1.authenticate)(model.username);
         if (existingAccountByUsername && existingAccountByUsername[0]) {
             throw new Error(`Tên đăng nhập ${model.username} đã tồn tại.`);
         }
+
         //kiểm tra email có hợp lệ không
         const isInvalidEmail = await (0, util_service_1.isDisposableEmail)(model.email);
         if (isInvalidEmail)
             throw new Error('Địa chỉ email không hợp lệ.');
+
+        //kiểm tra email đã tồn tại chưa
+        const existingAccountByEmail = await (0, account_repository_1.findAccountByEmail)(model.email);
+        if (existingAccountByEmail) {
+            throw new Error(`Địa chỉ email ${model.email} đã được sử dụng.`);
+        }
         const decryptedPassword = model.password;
         if (!decryptedPassword)
             throw new Error('Mật khẩu không hợp lệ');
@@ -231,17 +248,19 @@ const registerAccountService = async (model) => {
     }
 };
 exports.registerAccountService = registerAccountService;
+
+
 const registerOTPService = async (email, username) => {
     try {
+        const account = await (0, account_repository_1.authenticate)(username);
+        if (account && account[0]) {
+            throw new Error(`Tên đăng nhập ${username} đã được sử dụng.`);
+        }
+
         // 1. Kiểm tra xem email hoặc tài khoản đã được đăng ký chưa
         const existingAccount = await (0, account_repository_1.findAccountByEmail)(email);
         if (existingAccount) {
             throw new Error(`Địa chỉ email ${email} đã được sử dụng.`);
-        }
-        const account = await (0, account_repository_1.authenticate)(username);
-        console.log(`Kiểm tra tài khoản: ${username}`, account);
-        if (account && account[0]) {
-            throw new Error(`Tên đăng nhập ${username} đã được sử dụng.`);
         }
         // 2. Tạo OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -286,6 +305,8 @@ const registerOTPService = async (email, username) => {
     }
 };
 exports.registerOTPService = registerOTPService;
+
+
 const verifyCurrentPasswordService = async (username, currentEncryptedPassword) => {
     try {
         if (!currentEncryptedPassword) {
@@ -314,6 +335,8 @@ const verifyCurrentPasswordService = async (username, currentEncryptedPassword) 
     }
 };
 exports.verifyCurrentPasswordService = verifyCurrentPasswordService;
+
+
 const updateProfileService = async (username, model) => {
     try {
         // 1. Validate các trường thông tin cơ bản

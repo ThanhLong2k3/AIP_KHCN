@@ -5,7 +5,7 @@ import { ILesson } from "../../models/lesson";
 // Thêm bài học mới
 export const createLesson = async (model: ILesson): Promise<any> => {
     try {
-        const sql = 'CALL add_lesson(?,?,?,?,?,?)';
+        const sql = 'CALL add_lesson(?,?,?,?,?,?,?)';
         return await db_Provider(
             sql,
             [
@@ -14,7 +14,8 @@ export const createLesson = async (model: ILesson): Promise<any> => {
                 model.image,
                 model.chapter_id,
                 model.description ?? null,
-                model.created_by
+                model.created_by,
+                model.sort_order
             ],
             true
         );
@@ -26,7 +27,7 @@ export const createLesson = async (model: ILesson): Promise<any> => {
 // Cập nhật bài học
 export const updateLesson = async (model: ILesson): Promise<any> => {
     try {
-        const sql = 'CALL update_lesson(?,?,?,?,?,?)';
+        const sql = 'CALL update_lesson(?,?,?,?,?,?,?)';
         return await db_Provider(
             sql,
             [
@@ -35,7 +36,9 @@ export const updateLesson = async (model: ILesson): Promise<any> => {
                 model.image,
                 model.chapter_id,
                 model.description ?? null,
-                model.updated_by
+                model.updated_by,
+                model.sort_order
+
             ],
             true
         );
