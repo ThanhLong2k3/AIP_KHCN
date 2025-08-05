@@ -4,6 +4,6 @@ import { searchDecentralization } from "../controllers/decentralization/search_d
 
 const decentralizationRoutes = express.Router();
 
-decentralizationRoutes.post('/search', searchDecentralization);
+decentralizationRoutes.get('/search', searchDecentralization);
 
 export default decentralizationRoutes;

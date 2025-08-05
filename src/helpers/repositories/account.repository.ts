@@ -79,11 +79,23 @@ export const searchAccounts = async (model: IBaseSearch): Promise<any> => {
   }
 };
 
+//lấy ra tài khoản theo tên đăng nhập (dùng cho login và so sánh mật khẩu)
 export const authenticate = async (username: string): Promise<any> => {
   try {
     const sql = 'CALL get_user_by_username(?)';
     const results = await db_Provider(sql, [username]);
     return results;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+//kiểm tra xem tên đăng nhập đã tồn tại hay chưa (bao gồm cả tên đăng nhập đã bị xoá mềm)
+export const checkUsernameExists = async (username: string): Promise<any> => {
+  try {
+    const sql = 'CALL check_username_exists(?)';
+    const results = await db_Provider(sql, [username]);
+    return results.length > 0 ? results[0] : null;
   } catch (error: any) {
     throw new Error(error.message);
   }

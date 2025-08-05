@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 
 import {
   authenticate,
+  checkUsernameExists,
   createAccount,
   deleteAccount,
   findAccountByEmail,
@@ -19,24 +20,33 @@ import { getPermissionsByRole } from '../repositories/permission.repository';
 import { IAccount } from '../../models/account';
 import { isDisposableEmail } from './util.service';
 import { IBaseSearch } from '../../models/base';
+import { decrypt } from '@/libs/access';
 
 const BCRYPT_ROUNDS = parseInt('10'); //số vòng lặp mà thư viện bcryptjs sử dụng khi mã hoá mật khẩu
 
 export const createAccountService = async (model: IAccount) => {
   try {
-    // Validate input
-    if (!model.username?.trim()) throw new Error('Tên đăng nhập không được để trống');
-    if (!model.name?.trim()) throw new Error('Họ tên không được để trống');
-    if (!model.email?.trim()) throw new Error('Email không được để trống');
-    if (!model.password?.trim()) throw new Error('Mật khẩu không được để trống');
+    if (!model.username?.trim() || !model.name?.trim() || !model.email?.trim() || !model.password?.trim()) {
+      throw new Error('Thông tin bắt buộc không được để trống');
+    }
+    const existingUsername = await checkUsernameExists(model.username.trim());
+    if (existingUsername) {
+      throw new Error(`Tên đăng nhập "${model.username}" đã được sử dụng.`);
+    }
 
     const isInvalidEmail = await isDisposableEmail(model.email);
     if (isInvalidEmail) throw new Error('Địa chỉ email không được hỗ trợ');
-    //vừa sửa
-    const decryptedPassword = model.password;
-    if (!decryptedPassword) throw new Error('Mật khẩu không hợp lệ');
 
+    // Giải mã mật khẩu nhận được từ client
+    const decryptedPassword = decrypt(model.password);
+    if (!decryptedPassword) {
+      throw new Error('Định dạng mật khẩu không hợp lệ.');
+    }
+
+    // Băm mật khẩu đã giải mã
     const hashedPassword = await bcrypt.hash(decryptedPassword, BCRYPT_ROUNDS);
+
+
     const result = await createAccount({
       ...model,
       password: hashedPassword,
@@ -50,10 +60,9 @@ export const createAccountService = async (model: IAccount) => {
 
 export const updateAccountService = async (model: IAccount) => {
   try {
-    if (!model.username?.trim()) throw new Error('Tên đăng nhập không được để trống');
-    if (!model.name?.trim()) throw new Error('Họ tên không được để trống');
-    if (!model.email?.trim()) throw new Error('Email không được để trống');
-
+    if (!model.username?.trim() || !model.name?.trim() || !model.email?.trim()) {
+      throw new Error('Thông tin bắt buộc không được để trống');
+    }
 
     const isInvalidEmail = await isDisposableEmail(model.email);
     if (isInvalidEmail) throw new Error('Địa chỉ email không được hỗ trợ');
@@ -208,11 +217,18 @@ export const resetPasswordService = async (email: string, newPassword: string) =
 
 export const registerAccountService = async (model: IAccount) => {
   try {
-    //kiểm tra các trường dữ liệu bắt buộc
-    if (!model.username?.trim()) throw new Error('Tên đăng nhập không được để trống');
-    if (!model.name?.trim()) throw new Error('Họ tên không được để trống');
-    if (!model.email?.trim()) throw new Error('Email không được để trống');
-    if (!model.password?.trim()) throw new Error('Mật khẩu không được để trống');
+    if (!model.username?.trim() || !model.name?.trim() || !model.email?.trim() || !model.password?.trim()) {
+      throw new Error('Thông tin bắt buộc không được để trống');
+    }
+
+    //kiểm tra username đã tồn tại chưa
+    const existingUsername = await checkUsernameExists(model.username.trim());
+    if (existingUsername) {
+      throw new Error(`Tên đăng nhập "${model.username}" đã được sử dụng.`);
+    }
+    //kiểm tra email có hợp lệ không
+    const isInvalidEmail = await isDisposableEmail(model.email);
+    if (isInvalidEmail) throw new Error('Địa chỉ email không hợp lệ.');
 
     //kiểm tra email đã tồn tại chưa
     const existingAccountByEmail = await findAccountByEmail(model.email);
@@ -220,20 +236,16 @@ export const registerAccountService = async (model: IAccount) => {
       throw new Error(`Địa chỉ email ${model.email} đã được sử dụng.`);
     }
 
-    //kiểm tra username đã tồn tại chưa
-    const existingAccountByUsername = await authenticate(model.username);
-    if (existingAccountByUsername && existingAccountByUsername[0]) {
-      throw new Error(`Tên đăng nhập ${model.username} đã tồn tại.`);
+    // Giải mã mật khẩu nhận được từ client
+    const decryptedPassword = decrypt(model.password);
+
+    if (!decryptedPassword) {
+      throw new Error('Định dạng mật khẩu không hợp lệ.');
     }
 
-    //kiểm tra email có hợp lệ không
-    const isInvalidEmail = await isDisposableEmail(model.email);
-    if (isInvalidEmail) throw new Error('Địa chỉ email không hợp lệ.');
-
-    const decryptedPassword = model.password;
-    if (!decryptedPassword) throw new Error('Mật khẩu không hợp lệ');
-
+    // Băm mật khẩu đã giải mã
     const hashedPassword = await bcrypt.hash(decryptedPassword, BCRYPT_ROUNDS);
+
     const result = await registerAccount({
       ...model,
       password: hashedPassword,
@@ -248,25 +260,22 @@ export const registerAccountService = async (model: IAccount) => {
 
 export const registerOTPService = async (email: string, username: string) => {
   try {
-    // 1. Kiểm tra xem email hoặc tài khoản đã được đăng ký chưa
+    //kiểm tra username đã tồn tại chưa
+    const existingUsername = await checkUsernameExists(username.trim());
+    if (existingUsername) {
+      throw new Error(`Tên đăng nhập "${username}" đã được sử dụng.`);
+    }
+
+    // Kiểm tra xem email hoặc tài khoản đã được đăng ký chưa
     const existingAccount = await findAccountByEmail(email);
     if (existingAccount) {
       throw new Error(`Địa chỉ email ${email} đã được sử dụng.`);
     }
 
-    const account = await authenticate(username);
-
-    console.log(`Kiểm tra tài khoản: ${username}`, account);
-
-    if (account && account[0]) {
-      throw new Error(`Tên đăng nhập ${username} đã được sử dụng.`);
-    }
-
-
-    // 2. Tạo OTP
+    // Tạo OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // 3. Gửi email chứa OTP
+    // Gửi email chứa OTP
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
@@ -399,9 +408,26 @@ export const updateProfileService = async (username: string, model: any) => {
     updatedModel.username = username;
 
     // 4. Gọi repository với model đã được xử lý
-    const result = await updateProfile(updatedModel);
+    await updateProfile(updatedModel);
 
-    return result;
+    // Sau khi update, gọi lại hàm authenticate để lấy tất cả thông tin mới
+    const updatedAccount = await authenticate(username);
+
+    if (!updatedAccount || !updatedAccount[0]) {
+      throw new Error("Không thể lấy thông tin tài khoản sau khi cập nhật.");
+    }
+
+    //lấy thông tin quyền
+    const allPermissionsInfo = await getPermissionsByRole(updatedAccount[0].role_id);
+    const permissions = allPermissionsInfo.map((p: any) => p.permission_code);
+
+    return {
+      success: true,
+      user: {
+        ...updatedAccount[0],
+        permissions: permissions,
+      }
+    };
 
   } catch (error: any) {
     // Ném lỗi ra ngoài để API Route xử lý
