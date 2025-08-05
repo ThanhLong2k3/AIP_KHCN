@@ -32,6 +32,7 @@ export const searchCommentService = async (model: IBaseSearch) => {
 };
 
 export const deleteCommentService = async (id: string) => {
+    if (!id?.trim()) throw new Error('id bình luận không được để trống');
     try {
         return await deleteComment(id);
     } catch (error) {
