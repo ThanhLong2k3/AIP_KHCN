@@ -3,6 +3,7 @@ export interface IBlog {
     image: string;
     title: string;
     description: string | null;
+    views: int | null;
     created_at: Date;
     updated_at: Date;
     created_by: string;
