@@ -38,6 +38,9 @@ const INVOICE_SYMBOL = getEnvSafely('INVOICE_SYMBOL');
 const WEBHOOK_SECRET = getEnvSafely('WEBHOOK_SECRET');
 
 const WHITELIST_IP = getEnvSafely('WHITELIST_IP');
+// const ID_ROLE_STUDENT = process.env.ID_ROLE_STUDENT; 
+const ID_ROLE_STUDENT = getEnvSafely('ID_ROLE_STUDENT');
+
 
 const env = {
   BASE_URL,
@@ -72,6 +75,7 @@ const env = {
 
   //
   WHITELIST_IP,
+  ID_ROLE_STUDENT
 };
 
 export default env;
