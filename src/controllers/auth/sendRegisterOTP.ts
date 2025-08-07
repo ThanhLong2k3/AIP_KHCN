@@ -1,8 +1,12 @@
 import { Request, Response } from 'express';
 import { registerOTPService } from '../../helpers/services/account.service';
+import env from '@/env';
 
 export const sendRegisterOTP = async (req: Request, res: Response) => {
     try {
+        const DEFAULT_STUDENT_ROLE_ID = env.ID_ROLE_STUDENT; // ID quyền học sinh
+        console.log(DEFAULT_STUDENT_ROLE_ID, 'checkkkkk');
+
         const { email, username } = req.body;
 
         const result = await registerOTPService(email, username);

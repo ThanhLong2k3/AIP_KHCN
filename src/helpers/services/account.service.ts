@@ -37,6 +37,11 @@ export const createAccountService = async (model: IAccount) => {
     const isInvalidEmail = await isDisposableEmail(model.email);
     if (isInvalidEmail) throw new Error('Địa chỉ email không được hỗ trợ');
 
+    const existingAccount = await findAccountByEmail(model.email);
+    if (existingAccount) {
+      throw new Error(`Địa chỉ email ${model.email} đã được sử dụng.`);
+    }
+
     // Giải mã mật khẩu nhận được từ client
     const decryptedPassword = decrypt(model.password);
     if (!decryptedPassword) {
@@ -66,6 +71,15 @@ export const updateAccountService = async (model: IAccount) => {
 
     const isInvalidEmail = await isDisposableEmail(model.email);
     if (isInvalidEmail) throw new Error('Địa chỉ email không được hỗ trợ');
+
+    const currentUser = await authenticate(model.username);
+    // Kiểm tra xem email có thay đổi không và có bị trùng không
+    if (currentUser[0].email !== model.email) {
+      const existingAccount = await findAccountByEmail(model.email);
+      if (existingAccount) {
+        throw new Error(`Địa chỉ email ${model.email} đã được sử dụng.`);
+      }
+    }
 
     const result = await updateAccount(model);
     return result;
@@ -360,11 +374,12 @@ export const updateProfileService = async (username: string, model: any) => {
     if (!model.name?.trim()) throw new Error('Họ tên không được để trống');
     if (!model.email?.trim()) throw new Error('Email không được để trống');
 
-    // Kiểm tra xem email có thay đổi không và có bị trùng không
     const currentUser = await authenticate(username);
     if (!currentUser || !currentUser[0]) {
       throw new Error("Tài khoản không tồn tại.");
     }
+
+    // Kiểm tra xem email có thay đổi không và có bị trùng không
     if (currentUser[0].email !== model.email) {
       const existingAccount = await findAccountByEmail(model.email);
       if (existingAccount) {

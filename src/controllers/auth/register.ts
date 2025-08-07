@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { registerAccountService } from '../../helpers/services/account.service';
+import env from '@/env';
 
 // Đăng ký tài khoản học sinh
 export const registerAccount = async (req: Request, res: Response) => {
   try {
-    const DEFAULT_STUDENT_ROLE_ID = 'ade9dcaa-ee35-42a4-8855-3ba1506fa65a'; // ID quyền học sinh
+    const DEFAULT_STUDENT_ROLE_ID = env.ID_ROLE_STUDENT; // ID quyền học sinh
 
     const model = req.body;
     const result = await registerAccountService({

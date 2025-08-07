@@ -28,8 +28,6 @@ export const createAccount = async (model: IAccount): Promise<any> => {
 // Cập nhật tài khoản
 export const updateAccount = async (model: IAccount): Promise<any> => {
   try {
-    console.log('Updating account:', model);
-
     const sql = 'CALL update_account(?,?,?,?,?,?)';
     return await db_Provider(
       sql,
