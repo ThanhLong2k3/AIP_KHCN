@@ -62,7 +62,7 @@ export const searchBlogs = async (model: IBaseSearch): Promise<any> => {
         const results = await db_Provider(sql, [
             model.page_index ?? 1,
             model.page_size ?? 10,
-            model.order_type ?? 'ASC',
+            model.order_type ?? 'DESC',
             searchTitle,
             searchAccountNameCreate
         ]);

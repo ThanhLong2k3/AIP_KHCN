@@ -58,7 +58,6 @@ export const countAccountsByRoleId = async (roleId: string): Promise<number> => 
         if (response.success && resultDetails && resultDetails.length > 0) {
             // 4. Lấy giá trị 'count' từ phần tử đầu tiên của mảng `details`
             const count = resultDetails[0].count;
-            console.log(`Đã đếm được: ${count} tài khoản.`);
             return count;
         }
 
