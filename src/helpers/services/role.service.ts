@@ -57,9 +57,10 @@ export const deleteRoleService = async (id: string) => {
 
         // Bước 2: Nếu không có ràng buộc, thực hiện hành động
         const deleteResult = await deleteRole(id);
+        console.log(deleteResult);
 
         // Giả sử procedure trả về { details: [{ result: 1 }] } khi thành công
-        if (deleteResult?.details?.[0]?.result === 1) {
+        if (deleteResult?.details[0][0]?.result === 1) {
             return { success: true, message: 'Xóa vai trò thành công.' };
         } else {
             // Trường hợp procedure chạy nhưng không thành công (vd: trả về -1)
