@@ -2,6 +2,7 @@
 import { IBaseSearch } from '../../models/base';
 import { IBlog } from '../../models/blog';
 import {
+    addBlogView,
     createBlog,
     deleteBlog,
     getBlogAuthors,
@@ -59,5 +60,16 @@ export const getBlogAuthorsService = async () => {
         return await getBlogAuthors();
     } catch (error) {
         throw new Error('Không thể lấy danh sách tác giả.');
+    }
+};
+
+
+export const addBlogViewService = async (blogId: string) => {
+    try {
+        if (!blogId?.trim()) throw new Error('id bài viết không được để trống');
+
+        await addBlogView(blogId);
+    } catch (error: any) {
+        throw new Error('Không thể thêm lượt xem cho bài viết' + error);
     }
 };

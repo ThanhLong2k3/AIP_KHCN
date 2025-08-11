@@ -16,6 +16,7 @@ import HomeRoutes from "./routes/homeRoute";
 import uploadRoutes from "./routes/uploadRoute";
 import path from "path";
 import commentRoutes from "./routes/commentRoute";
+import dashboardRoutes from "./routes/dashboardRoute";
 
 
 dotenv.config();
@@ -47,7 +48,7 @@ app.use((req, res, next) => {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/api/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Routes
 app.use("/api/auth", authRoute);
@@ -63,6 +64,7 @@ app.use("/api/subject", subjectRoutes);
 app.use("/api/home", HomeRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/comment", commentRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 
 const PORT = process.env.PORT || 3000;

@@ -4,6 +4,7 @@ import { createBlog } from "../controllers/blog/create_blog.controller";
 import { deleteBlog } from "../controllers/blog/delete_blog.controller";
 import { getBlogAuthors } from "../controllers/blog/getAuthors_blog.controller";
 import { updateBlog } from "../controllers/blog/update_blog.controller";
+import { addBlogView } from "@/controllers/blog/updateview_blog.controller";
 
 
 const blogRoutes = express.Router();
@@ -13,5 +14,6 @@ blogRoutes.post('/create', createBlog);
 blogRoutes.post('/search', searchBlog);
 blogRoutes.post('/delete', deleteBlog);
 blogRoutes.post('/update', updateBlog);
+blogRoutes.post('/track-view', addBlogView);
 
 export default blogRoutes;
