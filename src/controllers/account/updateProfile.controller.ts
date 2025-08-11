@@ -32,7 +32,7 @@ export const updateProfile = async (req: Request, res: Response) => {
             permissions: updatedUser.user.permissions,
         };
 
-        const newToken = jwt.sign(newTokenPayload, JWT_SECRET, { expiresIn: '1h' });
+        const newToken = jwt.sign(newTokenPayload, JWT_SECRET, { expiresIn: '8h' });
 
         // 5. Trả về response thành công, kèm theo TOKEN MỚI
         return res.status(200).json({
