@@ -9,13 +9,15 @@ const getEnvSafely = (envKey: string) => {
  */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const ENCRYPTION_KEY = process.env.NEXT_PUBLIC_ENCRYPTION_KEY || '';
+const ID_ROLE_STUDENT = "ade9dcaa-ee35-42a4-8855-3ba1506fa65a"
+const JWT_SECRET = "dinhthientruong21dinhthientruong09dinhthientruong2004!@#$%^&*()-_=+[{]}\|;:,<.>/?"
+
 const DB_HOST = getEnvSafely('DB_HOST');
 const DB_PORT = getEnvSafely('DB_PORT');
 const DB_USERNAME = getEnvSafely('DB_USERNAME');
 const DB_PASSWORD = getEnvSafely('DB_PASSWORD');
 const DB_NAME = getEnvSafely('DB_NAME');
 const DB_APP_NAME = getEnvSafely('DB_BOT_NAME');
-const JWT_SECRET = getEnvSafely('JWT_SECRET') || '';
 const JWT_REFRESH_SECRET = getEnvSafely('JWT_REFRESH_SECRET') || '';
 const JWT_EXPIRES_IN = getEnvSafely('JWT_EXPIRES_IN') || '1d';
 const JWT_REFRESH_EXPIRES_IN = getEnvSafely('JWT_REFRESH_EXPIRES_IN') || '1h';
@@ -38,9 +40,6 @@ const INVOICE_SYMBOL = getEnvSafely('INVOICE_SYMBOL');
 const WEBHOOK_SECRET = getEnvSafely('WEBHOOK_SECRET');
 
 const WHITELIST_IP = getEnvSafely('WHITELIST_IP');
-// const ID_ROLE_STUDENT = process.env.ID_ROLE_STUDENT; 
-const ID_ROLE_STUDENT = getEnvSafely('ID_ROLE_STUDENT');
-
 
 const env = {
   BASE_URL,

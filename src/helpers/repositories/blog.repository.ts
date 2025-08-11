@@ -72,12 +72,20 @@ export const searchBlogs = async (model: IBaseSearch): Promise<any> => {
     }
 };
 
-
 export const getBlogAuthors = async (): Promise<any[]> => {
     try {
         const sql = 'CALL get_blog_authors()';
         const results = await db_Provider(sql);
         return results;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+};
+
+export const addBlogView = async (blogId: string): Promise<void> => {
+    try {
+        const sql = 'CALL add_blog_view(?)';
+        await db_Provider(sql, [blogId], true);
     } catch (error: any) {
         throw new Error(error.message);
     }
