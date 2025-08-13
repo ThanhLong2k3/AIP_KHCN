@@ -3,7 +3,7 @@ import { searchCommentService } from '../../helpers/services/comment.service';
 
 export const searchComment = async (req: Request, res: Response) => {
     try {
-        const model = req.body; // lấy dữ liệu tìm kiếm từ body
+        const model = req.body; 
         const data = await searchCommentService(model);
 
         return res.status(200).json({

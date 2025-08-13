@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const login_1 = require("../controllers/auth/login");
+const register_1 = require("../controllers/auth/register");
+const forgotPassword_1 = require("../controllers/auth/forgotPassword");
+const sendRegisterOTP_1 = require("../controllers/auth/sendRegisterOTP");
+const resetPassword_1 = require("../controllers/auth/resetPassword");
+const verifyRegisterOtp_1 = require("../controllers/auth/verifyRegisterOtp");
+const authRoute = express_1.default.Router();
+authRoute.post("/login", login_1.loginAccount);
+authRoute.post("/register", register_1.registerAccount);
+authRoute.post('/forgot-password', forgotPassword_1.forgotPassword);
+authRoute.post('/register-otp', sendRegisterOTP_1.sendRegisterOTP);
+authRoute.post('/reset-password', resetPassword_1.resetPassword);
+authRoute.post('/verify-otp', verifyRegisterOtp_1.verifyRegisterOtp);
+exports.default = authRoute;
