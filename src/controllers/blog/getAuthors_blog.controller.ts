@@ -1,19 +1,9 @@
-import { Request, Response } from 'express';
-import { verifyAuth } from '../../helpers/auth/auth.helper';
+import { Response } from 'express';
 import { getBlogAuthorsService } from '../../helpers/services/blog.service';
 
 // Lấy danh sách tác giả viết blog
-export const getBlogAuthors = async (req: Request, res: Response) => {
+export const getBlogAuthors = async (res: Response) => {
     try {
-        const authResult = await verifyAuth(req, 'BLOG_MANAGE');
-
-        if (authResult.error) {
-            return res.status(authResult.error.status || 403).json({
-                success: false,
-                message: authResult.error.message || 'Bạn không có quyền truy cập.',
-            });
-        }
-
         const authors = await getBlogAuthorsService();
 
         return res.status(200).json({
