@@ -61,7 +61,7 @@ export const deleteAccount = async (username: string, deletedBy: string): Promis
 // Tìm kiếm tài khoản có phân trang
 export const searchAccounts = async (model: IBaseSearch): Promise<any> => {
   try {
-    const sql = 'CALL get_accounts(?,?,?,?,?)'; // 
+    const sql = 'CALL get_accounts(?,?,?,?,?)';
     const name = model.search_content_1 || null;
     const roleName = model.search_content_2 || null;
     const results = await db_Provider(sql, [
