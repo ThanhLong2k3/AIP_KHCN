@@ -151,7 +151,6 @@ export const forgotPasswordService = async (email: string) => {
       throw new Error(`Không tồn tại tài khoản liên kết với ${email}.`);
     }
 
-
     // 1. Tạo OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6 chữ số
 
