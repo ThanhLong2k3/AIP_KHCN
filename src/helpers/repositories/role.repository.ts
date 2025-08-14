@@ -2,6 +2,17 @@ import { db_Provider } from "../../config/api_Provider";
 import { IBaseSearch } from "../../models/base";
 import { IRole } from "../../models/role";
 
+//kiểm tra xem tên quyền đã tồn tại hay chưa 
+export const checkRoleExists = async (name: string): Promise<any> => {
+    try {
+        const sql = 'CALL check_rolename_exists(?)';
+        const results = await db_Provider(sql, [name]);
+        return results.length > 0 ? results[0] : null;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+};
+
 // Thêm nhóm quyền mới
 export const createRole = async (model: IRole): Promise<any> => {
     try {

@@ -11,6 +11,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const ID_ROLE_STUDENT = "5bb89efe-f547-4892-b85d-3646b06ed5a8"
 const ENCRYPTION_KEY = "a0as20csd5c2s0cs5s0cs365s12s0c2sc4s5d0s";
 const JWT_SECRET = "dinhthientruong21dinhthientruong09dinhthientruong2004!@#$%^&*()-_=+[{]}\|;:,<.>/?"
+const EMAIL_USER = "chuongg.utehy@gmail.com"
+const EMAIL_PASS = "qems azcg lyvq iecl"
 
 const DB_HOST = getEnvSafely('DB_HOST');
 const DB_PORT = getEnvSafely('DB_PORT');
@@ -20,7 +22,7 @@ const DB_NAME = getEnvSafely('DB_NAME');
 const DB_APP_NAME = getEnvSafely('DB_BOT_NAME');
 const JWT_REFRESH_SECRET = getEnvSafely('JWT_REFRESH_SECRET') || '';
 const JWT_EXPIRES_IN = getEnvSafely('JWT_EXPIRES_IN') || '1d';
-const JWT_REFRESH_EXPIRES_IN = getEnvSafely('JWT_REFRESH_EXPIRES_IN') || '1h';
+const JWT_REFRESH_EXPIRES_IN = getEnvSafely('JWT_REFRESH_EXPIRES_IN') || '8h';
 const LIMIT_SIZE = getEnvSafely('LIMIT_SIZE') ?? 0;
 const UPLOAD_PATH = getEnvSafely('UPLOAD_PATH') || 'uploads';
 const SYSTEM_EMAIL_EMAIL = getEnvSafely('SYSTEM_EMAIL_EMAIL');
@@ -74,7 +76,10 @@ const env = {
 
   //
   WHITELIST_IP,
-  ID_ROLE_STUDENT
+
+  ID_ROLE_STUDENT,
+  EMAIL_USER,
+  EMAIL_PASS
 };
 
 export default env;

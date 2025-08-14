@@ -39,7 +39,7 @@ export const loginAccount = async (req: Request, res: Response) => {
         permissions: user.permissions,
       },
       JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '8h' }
     );
 
     return res.status(200).json({
