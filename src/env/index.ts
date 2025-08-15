@@ -8,8 +8,8 @@ const getEnvSafely = (envKey: string) => {
  * For server-used only
  */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-const ENCRYPTION_KEY = process.env.NEXT_PUBLIC_ENCRYPTION_KEY || 'a0as20csd5c2s0cs5s0cs365s12s0c2sc4s5d0s';
-const ID_ROLE_STUDENT = "ade9dcaa-ee35-42a4-8855-3ba1506fa65a"
+const ID_ROLE_STUDENT = "5bb89efe-f547-4892-b85d-3646b06ed5a8"
+const ENCRYPTION_KEY = "a0as20csd5c2s0cs5s0cs365s12s0c2sc4s5d0s";
 const JWT_SECRET = "dinhthientruong21dinhthientruong09dinhthientruong2004!@#$%^&*()-_=+[{]}\|;:,<.>/?"
 const EMAIL_USER = "chuongg.utehy@gmail.com"
 const EMAIL_PASS = "qems azcg lyvq iecl"

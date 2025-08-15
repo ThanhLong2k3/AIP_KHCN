@@ -1,4 +1,4 @@
-import { get_blog_by_id, get_chapter_subhect_by_idSubject, get_lesson_detail_by_id, GetSubjectsWithLessons } from "../repositories/home.repository";
+import { get_blog_by_id, get_chapter_subhect_by_idSubject, get_exam_by_id_subject, get_lesson_detail_by_id, GetSubjectsWithLessons } from "../repositories/home.repository";
 
 export const GetSubjectsWithLessonsService = async () => {
     try {
@@ -33,5 +33,14 @@ export const GetBlogById = async (id:string) => {
         return await get_blog_by_id(id);
     } catch (error) {
         throw new Error('Không thể lấy thông tin BÀI VIẾT ');
+    }
+};
+
+
+export const GetExamByIdSubject = async (id:string) => {
+    try {
+        return await get_exam_by_id_subject(id);
+    } catch (error) {
+        throw new Error('Không thể lấy thông tin bài thi: ');
     }
 };
