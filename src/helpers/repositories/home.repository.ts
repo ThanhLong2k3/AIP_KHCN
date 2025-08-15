@@ -1,3 +1,4 @@
+import { IExam } from "@/models/exam";
 import { db_Provider } from "../../config/api_Provider";
 import { IBlog_Get } from "../../models/blog";
 import { IChapter_Home, ILessonDetail, ISubject_Home } from "../../models/home";
@@ -49,3 +50,13 @@ export const get_blog_by_id = async (id: string): Promise<IBlog_Get[]> => {
     }
 };
 
+
+export const get_exam_by_id_subject = async (id: string): Promise<IExam[]> => {
+    try {
+        const sql = 'CALL get_exam_by_id_subject(?)';
+        const results = await db_Provider(sql, [id]);
+        return results;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+};
