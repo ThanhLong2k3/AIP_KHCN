@@ -31,7 +31,7 @@ const updateProfile = async (req, res) => {
             image: updatedUser.user.image,
             permissions: updatedUser.user.permissions,
         };
-        const newToken = jsonwebtoken_1.default.sign(newTokenPayload, JWT_SECRET, { expiresIn: '1h' });
+        const newToken = jsonwebtoken_1.default.sign(newTokenPayload, JWT_SECRET, { expiresIn: '8h' });
         // 5. Trả về response thành công, kèm theo TOKEN MỚI
         return res.status(200).json({
             success: true,

@@ -55,8 +55,8 @@ const getBlogViews = async (req, res) => {
         }
         const diffTime = Math.abs(end.getTime() - start.getTime());
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        // Giới hạn tối đa là 1 năm (366 ngày).
-        const MAX_DAYS_RANGE = 366;
+        // Giới hạn tối đa là 1 năm (365 ngày).
+        const MAX_DAYS_RANGE = 365;
         if (diffDays > MAX_DAYS_RANGE) {
             return res.status(400).json({
                 success: false,

@@ -11,6 +11,7 @@ const account_repository_1 = require("../repositories/account.repository");
 const permission_repository_1 = require("../repositories/permission.repository");
 const util_service_1 = require("./util.service");
 const access_1 = require("../../libs/access");
+const env_1 = __importDefault(require("../../env"));
 const BCRYPT_ROUNDS = parseInt('10'); //số vòng lặp mà thư viện bcryptjs sử dụng khi mã hoá mật khẩu
 const createAccountService = async (model) => {
     try {
@@ -133,12 +134,12 @@ const forgotPasswordService = async (email) => {
         const transporter = nodemailer_1.default.createTransport({
             service: 'Gmail',
             auth: {
-                user: process.env.EMAIL_USER, // Email của bạn
-                pass: process.env.EMAIL_PASS, // Mật khẩu ứng dụng 16 ký tự
+                user: env_1.default.EMAIL_USER, // Email của bạn
+                pass: env_1.default.EMAIL_PASS, // Mật khẩu ứng dụng 16 ký tự
             },
         });
         const mailOptions = {
-            from: `"CHEMISTRY FORUM Support" <${process.env.EMAIL_USER}>`,
+            from: `"CHEMISTRY FORUM Support" <${env_1.default.EMAIL_USER}>`,
             to: email,
             subject: 'Mã OTP khôi phục mật khẩu CHEMISTRY FORUM',
             html: `
@@ -157,7 +158,7 @@ const forgotPasswordService = async (email) => {
         };
         await transporter.sendMail(mailOptions);
         // 3. Tạo JWT tạm thời chứa OTP và email
-        const otpToken = jsonwebtoken_1.default.sign({ email: account.email, otp: otp }, process.env.JWT_SECRET, { expiresIn: '5m' } // Hết hạn sau 5 phút
+        const otpToken = jsonwebtoken_1.default.sign({ email: account.email, otp: otp }, env_1.default.JWT_SECRET, { expiresIn: '5m' } // Hết hạn sau 5 phút
         );
         return {
             success: true,
@@ -174,7 +175,7 @@ exports.forgotPasswordService = forgotPasswordService;
 //chỉ xác thực OTP
 const verifyOtpService = async (otp, otpToken) => {
     try {
-        const decoded = jsonwebtoken_1.default.verify(otpToken, process.env.JWT_SECRET);
+        const decoded = jsonwebtoken_1.default.verify(otpToken, env_1.default.JWT_SECRET);
         if (decoded.otp !== otp) {
             throw new Error("Mã OTP không chính xác.");
         }
@@ -256,12 +257,12 @@ const registerOTPService = async (email, username) => {
         const transporter = nodemailer_1.default.createTransport({
             service: 'Gmail',
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                user: env_1.default.EMAIL_USER,
+                pass: env_1.default.EMAIL_PASS,
             },
         });
         const mailOptions = {
-            from: `"CHEMISTRY FORUM Support" <${process.env.EMAIL_USER}>`,
+            from: `"CHEMISTRY FORUM Support" <${env_1.default.EMAIL_USER}>`,
             to: email,
             subject: 'Mã OTP đăng ký tài khoản CHEMISTRY FORUM',
             html: `
@@ -279,7 +280,7 @@ const registerOTPService = async (email, username) => {
         </div>`,
         };
         await transporter.sendMail(mailOptions);
-        const otpToken = jsonwebtoken_1.default.sign({ email: email, otp: otp }, process.env.JWT_SECRET, { expiresIn: '5m' } // Hết hạn sau 5 phút
+        const otpToken = jsonwebtoken_1.default.sign({ email: email, otp: otp }, env_1.default.JWT_SECRET, { expiresIn: '5m' } // Hết hạn sau 5 phút
         );
         return {
             success: true,

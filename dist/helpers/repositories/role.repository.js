@@ -1,7 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchRoles = exports.deleteRole = exports.countAccountsByRoleId = exports.updateRole = exports.createRole = void 0;
+exports.searchRoles = exports.deleteRole = exports.countAccountsByRoleId = exports.updateRole = exports.createRole = exports.checkRoleExists = void 0;
 const api_Provider_1 = require("../../config/api_Provider");
+//kiểm tra xem tên quyền đã tồn tại hay chưa 
+const checkRoleExists = async (name) => {
+    try {
+        const sql = 'CALL check_rolename_exists(?)';
+        const results = await (0, api_Provider_1.db_Provider)(sql, [name]);
+        return results.length > 0 ? results[0] : null;
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+};
+exports.checkRoleExists = checkRoleExists;
 // Thêm nhóm quyền mới
 const createRole = async (model) => {
     try {

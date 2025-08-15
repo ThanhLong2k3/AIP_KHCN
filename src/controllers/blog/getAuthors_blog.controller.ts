@@ -1,14 +1,14 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { getBlogAuthorsService } from '../../helpers/services/blog.service';
 
 // Lấy danh sách tác giả viết blog
-export const getBlogAuthors = async (res: Response) => {
+export const getBlogAuthors = async (_req: Request, res: Response) => {
     try {
-        const authors = await getBlogAuthorsService();
+        const data = await getBlogAuthorsService();
 
         return res.status(200).json({
             success: true,
-            data: authors,
+            data,
         });
     } catch (error: any) {
         console.error('API Error in GET /api/blog/authors:', error);

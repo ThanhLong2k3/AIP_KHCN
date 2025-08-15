@@ -34,7 +34,7 @@ const loginAccount = async (req, res) => {
             name: user.name,
             image: user.image,
             permissions: user.permissions,
-        }, JWT_SECRET, { expiresIn: '1h' });
+        }, JWT_SECRET, { expiresIn: '8h' });
         return res.status(200).json({
             success: true,
             message: 'Đăng nhập thành công',

@@ -10,6 +10,10 @@ const createRoleService = async (model) => {
             throw new Error('id nhóm quyền không được để trống');
         if (!model.name?.trim())
             throw new Error('Tên nhóm quyền không được để trống');
+        const existingUsername = await (0, role_repository_1.checkRoleExists)(model.name.trim());
+        if (existingUsername) {
+            throw new Error(`Quyền "${model.name}" đã tồn tại.`);
+        }
         // Save
         const result = await (0, role_repository_1.createRole)(model);
         return result;

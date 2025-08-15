@@ -54,7 +54,7 @@ exports.deleteAccount = deleteAccount;
 // Tìm kiếm tài khoản có phân trang
 const searchAccounts = async (model) => {
     try {
-        const sql = 'CALL get_accounts(?,?,?,?,?)'; // 
+        const sql = 'CALL get_accounts(?,?,?,?,?)';
         const name = model.search_content_1 || null;
         const roleName = model.search_content_2 || null;
         const results = await (0, api_Provider_1.db_Provider)(sql, [
