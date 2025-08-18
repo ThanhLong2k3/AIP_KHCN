@@ -24,7 +24,7 @@ const uploadFiles = async (req, res) => {
             const filePath = path_1.default.join(UPLOAD_DIR, timestampedName);
             // Di chuyển file từ bộ nhớ tạm sang thư mục đích
             fs_1.default.renameSync(file.path, filePath);
-            uploadedUrls.push(`/uploads/${timestampedName}`);
+            uploadedUrls.push(`/api/uploads/${timestampedName}`);
         }
         return res.status(200).json({ urls: uploadedUrls });
     }

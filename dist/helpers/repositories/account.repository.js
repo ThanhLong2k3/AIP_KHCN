@@ -24,14 +24,15 @@ exports.createAccount = createAccount;
 // Cập nhật tài khoản
 const updateAccount = async (model) => {
     try {
-        const sql = 'CALL update_account(?,?,?,?,?,?)';
+        const sql = 'CALL update_account(?,?,?,?,?,?,?)';
         return await (0, api_Provider_1.db_Provider)(sql, [
             model.username,
             model.image,
             model.name,
             model.role_id,
             model.email,
-            model.updated_by
+            model.updated_by,
+            model.deleted
         ], true);
     }
     catch (error) {
@@ -54,15 +55,17 @@ exports.deleteAccount = deleteAccount;
 // Tìm kiếm tài khoản có phân trang
 const searchAccounts = async (model) => {
     try {
-        const sql = 'CALL get_accounts(?,?,?,?,?)';
+        const sql = 'CALL get_accounts(?,?,?,?,?,?)';
         const name = model.search_content_1 || null;
         const roleName = model.search_content_2 || null;
+        const deleted = model.search_content_3 || null;
         const results = await (0, api_Provider_1.db_Provider)(sql, [
             model.page_index ?? 1,
             model.page_size ?? 10,
             model.order_type ?? 'ASC',
             name,
-            roleName
+            roleName,
+            deleted
         ]);
         return results;
     }

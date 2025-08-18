@@ -28,7 +28,7 @@ export const createAccount = async (model: IAccount): Promise<any> => {
 // Cập nhật tài khoản
 export const updateAccount = async (model: IAccount): Promise<any> => {
   try {
-    const sql = 'CALL update_account(?,?,?,?,?,?)';
+    const sql = 'CALL update_account(?,?,?,?,?,?,?)';
     return await db_Provider(
       sql,
       [
@@ -37,7 +37,8 @@ export const updateAccount = async (model: IAccount): Promise<any> => {
         model.name,
         model.role_id,
         model.email,
-        model.updated_by
+        model.updated_by,
+        model.deleted
       ],
       true
     );
@@ -61,15 +62,17 @@ export const deleteAccount = async (username: string, deletedBy: string): Promis
 // Tìm kiếm tài khoản có phân trang
 export const searchAccounts = async (model: IBaseSearch): Promise<any> => {
   try {
-    const sql = 'CALL get_accounts(?,?,?,?,?)';
+    const sql = 'CALL get_accounts(?,?,?,?,?,?)';
     const name = model.search_content_1 || null;
     const roleName = model.search_content_2 || null;
+    const deleted = model.search_content_3 || null;
     const results = await db_Provider(sql, [
       model.page_index ?? 1,
       model.page_size ?? 10,
       model.order_type ?? 'ASC',
       name,
-      roleName
+      roleName,
+      deleted
     ]);
     return results;
   } catch (error: any) {

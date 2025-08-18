@@ -46,7 +46,8 @@ app.use((req, res, next) => {
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json({ limit: '50mb' }));
 app.use(express_1.default.urlencoded({ limit: '50mb', extended: true }));
-app.use('/api/uploads', express_1.default.static(path_1.default.join(__dirname, 'uploads')));
+// app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/uploads', express_1.default.static(path_1.default.join(process.cwd(), 'uploads')));
 // Routes
 app.use("/api/auth", authRoute_1.default);
 app.use("/api/account", accountRoute_1.default);
