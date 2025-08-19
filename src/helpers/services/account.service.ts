@@ -378,9 +378,10 @@ export const updateProfileService = async (username: string, model: any) => {
     if (!currentUser) {
       throw new Error("Tài khoản không tồn tại.");
     }
+    console.log(currentUser, 'eeeeeeeeeeeeeeeeeeeê');
 
     // Kiểm tra xem email có thay đổi không và có bị trùng không
-    if (currentUser[0].email !== model.email) {
+    if (currentUser.email !== model.email) {
       const existingAccount = await findAccountByEmail(model.email);
       if (existingAccount) {
         throw new Error(`Địa chỉ email ${model.email} đã được sử dụng.`);
