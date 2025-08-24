@@ -26,7 +26,7 @@ export const uploadFiles = async (req: Request, res: Response) => {
             // Di chuyển file từ bộ nhớ tạm sang thư mục đích
             fs.renameSync(file.path, filePath);
 
-            uploadedUrls.push(`/api/uploads/${timestampedName}`);
+            uploadedUrls.push(`/uploads/${timestampedName}`);
         }
 
         return res.status(200).json({ urls: uploadedUrls });
