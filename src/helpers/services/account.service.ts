@@ -401,7 +401,7 @@ export const updateProfileService = async (username: string, model: any) => {
       const decryptedCurrentPassword = model.currentPassword;
       if (!decryptedCurrentPassword) throw new Error("Mật khẩu hiện tại không hợp lệ.");
 
-      const isMatch = await bcrypt.compare(decryptedCurrentPassword, currentUser[0].password);
+      const isMatch = await bcrypt.compare(decryptedCurrentPassword, currentUser.password);
       if (!isMatch) {
         throw new Error("Mật khẩu hiện tại không chính xác.");
       }
